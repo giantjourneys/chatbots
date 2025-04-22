@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Botpress Chatbot</title>
 
-  <!-- 2. Full‑screen reset -->
+  <!-- 2. Full‑screen CSS reset -->
   <style>
     html, body {
       margin: 0;
@@ -15,22 +15,19 @@
     }
   </style>
 
-  <!-- 3. Botpress Webchat injector & config (use your own .js URL) -->
+  <!-- 3. Botpress Webchat injector & your .js config (defer keeps load order) -->
   <script src="https://cdn.botpress.cloud/webchat/v2.3/inject.js" defer></script>
   <script src="https://files.bpcontent.cloud/2025/04/19/14/20250419145637-GYE9B46U.js" defer></script>
 
-  <!-- 4. Auto‑open the chat once both scripts have loaded -->
+  <!-- 4. Auto‑open as soon as the chat is ready -->
   <script defer>
-    // With `defer`, this runs after the injector and config have executed
-    if (window.botpressWebChat) {
-      window.botpressWebChat.open();
-    } else {
-      // fallback if something went wrong
-      console.error('⚠️ botpressWebChat not available to open automatically.');
-    }
+    window.botpressWebChat?.onEvent(
+      () => window.botpressWebChat.sendEvent({ type: 'show' }),
+      ['LIFECYCLE.LOADED']
+    );  // sendEvent('show') expands the bubble into the full chat window :contentReference[oaicite:0]{index=0}
   </script>
 </head>
 <body>
-  <!-- no container needed—.js config will create & init for you -->
+  <!-- nothing else needed -->
 </body>
 </html>
