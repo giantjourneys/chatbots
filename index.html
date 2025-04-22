@@ -2,22 +2,47 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <!-- 1. Make sure mobile browsers size the viewport properly -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Botpress Chat Widget</title>
 
-  <!-- Botpress Webchat injector -->
+  <!-- 2. Full‑screen reset & widget container sizing -->
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+    /* Explicit container for the chat */
+    #bp-web-widget {
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      bottom: 0;
+      right: 0;
+    }
+  </style>
+
+  <!-- 3. Load the Botpress injector -->
   <script src="https://cdn.botpress.cloud/webchat/v2.3/inject.js"></script>
-  <script>
-    window.botpressWebChat.init({
-      host: 'https://cdn.botpress.cloud/webchat/v2.3',
-      configUrl: 'https://files.bpcontent.cloud/2025/04/19/14/20250419145637-BBGGSHU6.json'
-    });
-  </script>
 </head>
+
 <body>
-  <!--
-    The botpress script will automatically inject
-    the chat widget into the page. No extra markup needed.
-  -->
+  <!-- 4. DOM target for the chat -->
+  <div id="bp-web-widget"></div>
+
+  <!-- 5. Initialize once the injector is available -->
+  <script>
+    if (window.botpressWebChat) {
+      window.botpressWebChat.init({
+        host:   'https://cdn.botpress.cloud/webchat/v2.3',
+        configUrl:
+          'https://files.bpcontent.cloud/2025/04/19/14/20250419145637-BBGGSHU6.json',
+        element: '#bp-web-widget'    // point it at our container
+      });
+    } else {
+      console.error('⚠️ Botpress injector failed to load.');
+    }
+  </script>
 </body>
 </html>
