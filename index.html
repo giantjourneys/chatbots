@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <!-- 1. Mobile‑friendly scaling -->
+  <!-- 1. Mobile‑friendly viewport -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Botpress Chatbot</title>
 
-  <!-- 2. Make the page truly full‑screen -->
+  <!-- 2. Full‑screen reset -->
   <style>
     html, body {
       margin: 0;
@@ -15,12 +15,22 @@
     }
   </style>
 
-  <!-- 3. Botpress Webchat scripts (defer ensures they load after the HTML) -->
+  <!-- 3. Botpress Webchat injector & config (use your own .js URL) -->
   <script src="https://cdn.botpress.cloud/webchat/v2.3/inject.js" defer></script>
   <script src="https://files.bpcontent.cloud/2025/04/19/14/20250419145637-GYE9B46U.js" defer></script>
+
+  <!-- 4. Auto‑open the chat once both scripts have loaded -->
+  <script defer>
+    // With `defer`, this runs after the injector and config have executed
+    if (window.botpressWebChat) {
+      window.botpressWebChat.open();
+    } else {
+      // fallback if something went wrong
+      console.error('⚠️ botpressWebChat not available to open automatically.');
+    }
+  </script>
 </head>
 <body>
-  <!-- No container needed—your .js config will auto‑init the widget. -->
+  <!-- no container needed—.js config will create & init for you -->
 </body>
 </html>
-
