@@ -3,18 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chat with Neil</title>
+  <title>Chat with Neil Armstrong</title>
   <style>
     body {
       margin: 0;
       padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
       height: 100vh;
-      background: black;
-      color: white;
       overflow: hidden;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      z-index: 2;
     }
 
     .container {
@@ -22,8 +31,8 @@
       flex-direction: row;
       gap: 20px;
       align-items: center;
-      max-width: 100%;
-      padding: 20px;
+      justify-content: center;
+      z-index: 2;
     }
 
     .chatbox iframe.bpWebchat {
@@ -36,6 +45,42 @@
     .image-box img {
       height: 600px;
       object-fit: contain;
+      border-radius: 10px;
+    }
+
+    /* Starfield background */
+    .stars, .stars2, .stars3 {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background-repeat: repeat;
+      background-size: contain;
+      z-index: 0;
+      animation: moveStars 100s linear infinite;
+    }
+
+    .stars {
+      background-image: url("https://www.transparenttextures.com/patterns/stardust.png");
+      opacity: 0.2;
+    }
+
+    .stars2 {
+      background-image: url("https://www.transparenttextures.com/patterns/stardust.png");
+      opacity: 0.1;
+      animation-duration: 150s;
+    }
+
+    .stars3 {
+      background-image: url("https://www.transparenttextures.com/patterns/stardust.png");
+      opacity: 0.05;
+      animation-duration: 200s;
+    }
+
+    @keyframes moveStars {
+      from { background-position: 0 0; }
+      to { background-position: -10000px 5000px; }
     }
 
     @media (max-width: 768px) {
@@ -48,13 +93,25 @@
         width: 90vw !important;
         height: 80vh !important;
       }
+
+      h1 {
+        font-size: 1.5rem;
+        text-align: center;
+        padding: 0 10px;
+      }
     }
   </style>
 </head>
 <body>
+  <div class="stars"></div>
+  <div class="stars2"></div>
+  <div class="stars3"></div>
+
+  <h1>🚀 Talk to Neil Armstrong</h1>
+
   <div class="container">
     <div class="image-box">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Neil_Armstrong_pose.jpg/440px-Neil_Armstrong_pose.jpg" alt="Neil Armstrong" />
+      <img src="https://giantjourneys.co.uk/wp-content/uploads/2025/04/ChatGPT-Image-Apr-19-2025-05_37_22-PM.png" alt="Neil Armstrong" />
     </div>
     <div class="chatbox"></div>
   </div>
@@ -62,15 +119,15 @@
   <script src="https://cdn.botpress.cloud/webchat/v2.3/inject.js"></script>
   <script>
     window.botpressWebChat.init({
-      composerPlaceholder: "Talk to Neil...",
-      botId: "your-bot-id",
-      hostUrl: "https://cdn.botpress.cloud/webchat/v2",
-      messagingUrl: "https://messaging.botpress.cloud",
+      botId: "ea1feb7d-5c69-43a3-8652-a50c8431a2d7",
+      clientId: "3d290cc1-7536-4cae-a811-d31db19ed1df",
+      composerPlaceholder: "Ask Neil Armstrong something...",
       container: document.querySelector(".chatbox"),
       layoutWidth: "100%",
       hideWidget: true,
       showCloseButton: false,
-      disableAnimations: false
+      disableAnimations: false,
+      stylesheet: "https://cdn.botpress.cloud/webchat/v2.3/themes/default.css"
     });
   </script>
 </body>
