@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <!-- 1. Mobile‑friendly viewport -->
+  <!-- 1. Mobile‑friendly scaling -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Botpress Chatbot</title>
 
-  <!-- 2. Full‑screen CSS reset -->
+  <!-- 2. Full‑screen reset -->
   <style>
     html, body {
       margin: 0;
@@ -15,19 +15,26 @@
     }
   </style>
 
-  <!-- 3. Botpress Webchat injector & your .js config (defer keeps load order) -->
+  <!-- 3. Botpress Webchat scripts -->
   <script src="https://cdn.botpress.cloud/webchat/v2.3/inject.js" defer></script>
   <script src="https://files.bpcontent.cloud/2025/04/19/14/20250419145637-GYE9B46U.js" defer></script>
 
-  <!-- 4. Auto‑open as soon as the chat is ready -->
+  <!-- 4. Auto‑click the bubble after load -->
   <script defer>
-    window.botpressWebChat?.onEvent(
-      () => window.botpressWebChat.sendEvent({ type: 'show' }),
-      ['LIFECYCLE.LOADED']
-    );  // sendEvent('show') expands the bubble into the full chat window :contentReference[oaicite:0]{index=0}
+    // Wait a little for the injector to set up its button
+    window.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        const bubble = document.querySelector('.bpw-floating-button');
+        if (bubble) {
+          bubble.click();   // expand the chat window
+        } else {
+          console.warn('Botpress bubble not found; chat may not auto‑open.');
+        }
+      }, 500); // 0.5s delay; tweak higher if needed on slow connections
+    });
   </script>
 </head>
 <body>
-  <!-- nothing else needed -->
+  <!-- no container or manual init needed – your .js config does it -->
 </body>
 </html>
