@@ -2,45 +2,25 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <!-- 1. Ensure proper scaling on mobile devices -->
+  <!-- 1. Mobile‑friendly scaling -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Botpress Chatbot</title>
 
-  <!-- 2. Make the page/container full‑screen -->
+  <!-- 2. Make the page truly full‑screen -->
   <style>
     html, body {
       margin: 0;
       padding: 0;
       height: 100%;
     }
-    /* This is where the chat widget will render */
-    #bp-web-widget {
-      position: fixed;
-      bottom: 0;
-      right: 0;
-      width: 100%;
-      height: 100%;
-    }
   </style>
 
-  <!-- 3. Load Botpress Webchat injector -->
-  <script src="https://cdn.botpress.cloud/webchat/v2.3/inject.js"></script>
+  <!-- 3. Botpress Webchat scripts (defer ensures they load after the HTML) -->
+  <script src="https://cdn.botpress.cloud/webchat/v2.3/inject.js" defer></script>
+  <script src="https://files.bpcontent.cloud/2025/04/19/14/20250419145637-GYE9B46U.js" defer></script>
 </head>
 <body>
-  <!-- 4. Widget container -->
-  <div id="bp-web-widget"></div>
-
-  <!-- 5. Initialize the widget -->
-  <script>
-    if (window.botpressWebChat) {
-      window.botpressWebChat.init({
-        host:      'https://cdn.botpress.cloud/webchat/v2.3',
-        configUrl: 'https://files.bpcontent.cloud/2025/04/19/14/20250419145637-BBGGSHU6.json',
-        element:   '#bp-web-widget'
-      });
-    } else {
-      console.error('⚠️ Botpress injector failed to load.');
-    }
-  </script>
+  <!-- No container needed—your .js config will auto‑init the widget. -->
 </body>
 </html>
+
