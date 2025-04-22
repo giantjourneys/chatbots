@@ -1,71 +1,77 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Botpress Webchat</title>
-    <link rel="icon" type="image/svg+xml" href="https://app.botpress.cloud/favicon/bp.svg" />
-    <style>
-      .bpFab {
-        display: none;
-      }
-
-      body {
-        padding: 0;
-        margin: 0;
-        overflow: hidden;
-      }
-
-      .bpWebchat {
-        border-radius: 0px !important;
-        position: fixed !important;
-        top: 0;
-        left: 0;
-        width: 100% !important;
-        height: 100% !important;
-        max-width: unset !important;
-        max-height: unset !important;
-        border: none;
-      }
-    </style>
-  </head>
-
-  <body>
-    <script src="https://cdn.botpress.cloud/webchat/v2.3/inject.js"></script>
-    <script>
-      try {
-        window.botpress.open()
-      } catch {}
-
-      window.botpress.on('webchat:initialized', (event) => {
-        window.botpress.open()
-        let interval = setInterval(() => {
-          window.botpress.open()
-          if (window.botpress.state === 'opened') {
-            clearInterval(interval)
-          }
-        }, 50)
-        try {
-          const doc = window.botpress.webchatIframe.contentDocument
-          const style = doc.createElement('style')
-          style.innerHTML = `
-          .bpContainer {
-            border: none;
-}
-
-.bpHeaderContentContainer, .bpHeaderContainer, .bpContainer {
-  border: none;
-  border-radius: 0 !important;
-  }
-  
-  .bpHeaderContentActionsIcons {
-    display: none;
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chat with Neil</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: black;
+      color: white;
+      overflow: hidden;
     }
-    `
-          doc.body.appendChild(style)
-        } catch {}
-      })
-    </script>
-    <script src="https://files.bpcontent.cloud/2025/04/19/14/20250419145637-GYE9B46U.js"></script>
-  </body>
+
+    .container {
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+      align-items: center;
+      max-width: 100%;
+      padding: 20px;
+    }
+
+    .chatbox iframe.bpWebchat {
+      width: 400px !important;
+      height: 600px !important;
+      border-radius: 20px !important;
+      border: none;
+    }
+
+    .image-box img {
+      height: 600px;
+      object-fit: contain;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+
+      .image-box img,
+      .chatbox iframe.bpWebchat {
+        width: 90vw !important;
+        height: 80vh !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="image-box">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Neil_Armstrong_pose.jpg/440px-Neil_Armstrong_pose.jpg" alt="Neil Armstrong" />
+    </div>
+    <div class="chatbox"></div>
+  </div>
+
+  <script src="https://cdn.botpress.cloud/webchat/v2.3/inject.js"></script>
+  <script>
+    window.botpressWebChat.init({
+      composerPlaceholder: "Talk to Neil...",
+      botId: "your-bot-id",
+      hostUrl: "https://cdn.botpress.cloud/webchat/v2",
+      messagingUrl: "https://messaging.botpress.cloud",
+      container: document.querySelector(".chatbox"),
+      layoutWidth: "100%",
+      hideWidget: true,
+      showCloseButton: false,
+      disableAnimations: false
+    });
+  </script>
+</body>
 </html>
