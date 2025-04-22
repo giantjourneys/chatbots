@@ -116,19 +116,29 @@
     <div class="chatbox"></div>
   </div>
 
-  <script src="https://cdn.botpress.cloud/webchat/v2.3/inject.js"></script>
+  <!-- Load Botpress Webchat and initialize once loaded -->
+  <script src="https://cdn.botpress.cloud/webchat/v2.3/inject.js" onload="initializeBotpress()"></script>
   <script>
-    window.botpressWebChat.init({
-      botId: "ea1feb7d-5c69-43a3-8652-a50c8431a2d7",
-      clientId: "3d290cc1-7536-4cae-a811-d31db19ed1df",
-      composerPlaceholder: "Ask Neil Armstrong something...",
-      container: document.querySelector(".chatbox"),
-      layoutWidth: "100%",
-      hideWidget: true,
-      showCloseButton: false,
-      disableAnimations: false,
-      stylesheet: "https://cdn.botpress.cloud/webchat/v2.3/themes/default.css"
-    });
+    function initializeBotpress() {
+      if (window.botpressWebChat && typeof window.botpressWebChat.init === 'function') {
+        window.botpressWebChat.init({
+          botId: "ea1feb7d-5c69-43a3-8652-a50c8431a2d7",
+          clientId: "3d290cc1-7536-4cae-a811-d31db19ed1df",
+          hostUrl: "https://cdn.botpress.cloud/webchat/v2",
+          messagingUrl: "https://messaging.botpress.cloud",
+          composerPlaceholder: "Ask Neil Armstrong something...",
+          container: document.querySelector(".chatbox"),
+          layoutWidth: "100%",
+          hideWidget: true,
+          showCloseButton: false,
+          disableAnimations: false
+        });
+      } else {
+        console.error('Botpress WebChat not loaded');
+      }
+    }
+    // Fallback if script loaded before this function defined
+    window.addEventListener('load', initializeBotpress);
   </script>
 </body>
 </html>
