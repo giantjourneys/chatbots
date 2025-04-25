@@ -2,39 +2,113 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <!-- 1. Mobile‑friendly scaling -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Botpress Chatbot</title>
-
-  <!-- 2. Full‑screen reset -->
+  <title>Chat with Neil Armstrong</title>
   <style>
-    html, body {
+    body {
       margin: 0;
-      padding: 0;
-      height: 100%;
+      font-family: 'Arial', sans-serif;
+      background-color: #000;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 15px #00ffff;
+    }
+    #chatbox {
+      width: 90%;
+      max-width: 600px;
+      height: 70vh;
+      background: rgba(0, 0, 20, 0.8);
+      border: 2px solid #00ffff;
+      border-radius: 12px;
+      overflow-y: auto;
+      padding: 1rem;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+    }
+    #user-input {
+      margin-top: 1rem;
+      display: flex;
+      width: 90%;
+      max-width: 600px;
+    }
+    input[type="text"] {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 8px 0 0 8px;
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      background: #00ffff;
+      color: black;
+      font-weight: bold;
+      border-radius: 0 8px 8px 0;
+      cursor: pointer;
     }
   </style>
-
-  <!-- 3. Botpress Webchat scripts -->
-  <script src="https://cdn.botpress.cloud/webchat/v2.3/inject.js" defer></script>
-  <script src="https://files.bpcontent.cloud/2025/04/19/14/20250419145637-GYE9B46U.js" defer></script>
-
-  <!-- 4. Auto‑click the bubble after load -->
-  <script defer>
-    // Wait a little for the injector to set up its button
-    window.addEventListener('DOMContentLoaded', () => {
-      setTimeout(() => {
-        const bubble = document.querySelector('.bpw-floating-button');
-        if (bubble) {
-          bubble.click();   // expand the chat window
-        } else {
-          console.warn('Botpress bubble not found; chat may not auto‑open.');
-        }
-      }, 500); // 0.5s delay; tweak higher if needed on slow connections
-    });
-  </script>
 </head>
 <body>
-  <!-- no container or manual init needed – your .js config does it -->
+  <h1>🚀 Chat with Neil Armstrong</h1>
+  <div id="chatbox"></div>
+  <div id="user-input">
+    <input type="text" id="input" placeholder="Ask Neil a question...">
+    <button onclick="sendMessage()">Send</button>
+  </div>
+
+<script>
+const chatbox = document.getElementById('chatbox');
+const input = document.getElementById('input');
+
+function appendMessage(sender, message) {
+  const messageElement = document.createElement('div');
+  messageElement.innerHTML = `<strong>${sender}:</strong> ${message}`;
+  messageElement.style.marginBottom = '10px';
+  chatbox.appendChild(messageElement);
+  chatbox.scrollTop = chatbox.scrollHeight;
+}
+
+async function sendMessage() {
+  const userInput = input.value.trim();
+  if (!userInput) return;
+
+  appendMessage('You', userInput);
+  input.value = '';
+
+  try {
+    const response = await fetch("/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ message: userInput })
+    });
+
+    if (!response.ok) {
+      throw new Error(`Server error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    const neilReply = data.reply;
+
+    if (neilReply) {
+      appendMessage('Neil', neilReply);
+    } else {
+      appendMessage('Neil', "Hmm, I'm having a little trouble responding right now. Try again soon!");
+    }
+  } catch (err) {
+    console.error(err);
+    appendMessage('Neil', "Oops! I'm having trouble connecting to Mission Control. Please try again later.");
+  }
+}
+</script>
 </body>
 </html>
